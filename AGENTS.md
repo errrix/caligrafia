@@ -3,7 +3,7 @@
 ## Project Overview
 
 Caligrafia is a browser-based A4 handwriting worksheet generator. The app lets
-users enter a phrase, adjust the handwriting size, preview the sheet, and print
+users enter a phrase, preview the sheet with guide-fitted handwriting, and print
 it or save it as PDF through the browser print dialog.
 
 ## Quick Start

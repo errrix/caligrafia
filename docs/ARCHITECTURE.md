@@ -66,10 +66,10 @@ The main application component. It currently owns:
 
 - phrase state;
 - student name state;
-- handwriting font size state;
+- automatic handwriting font sizing by script;
 - phrase segmentation by script for handwriting font selection;
 - sample text wrapping by sheet width and explicit line breaks;
-- handlers for size controls, reset, and print;
+- handlers for reset and print;
 - command-style tool rail, control panel markup, and preview metrics;
 - sheet preview markup;
 - empty practice row generation through `practiceRows`.
@@ -90,9 +90,12 @@ Contains most of the visual behavior:
 - responsive preview scaling;
 - print mode through `@media print`.
 
-Sheet geometry is controlled by CSS variables inside `.sheet`:
+Sheet geometry and sample text sizing are controlled by CSS variables inside
+`.sheet`:
 
-- `--copy-size` - handwriting text size passed from React;
+- `--copy-size-default` - Cyrillic/default handwriting text size;
+- `--copy-size-latin` - Latin handwriting text size tuned to match the same
+  guide row height;
 - `--row-height` - practice row height;
 - `--baseline-y` - baseline position;
 - `--x-height` - upper guide line position.
@@ -123,7 +126,6 @@ sourcePhrase -> worksheet phrase text, including explicit line breaks
 sampleRows   -> derived sheet rows after width-aware wrapping
 phraseRuns   -> derived script-aware phrase segments for each sample row
 studentName  -> student name in the control panel
-fontSize     -> handwriting text size
 ```
 
 There is no external store, URL state, localStorage, or backend. After a page

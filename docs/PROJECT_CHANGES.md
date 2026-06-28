@@ -77,6 +77,11 @@ npm run lint
 - Added sheet-width-aware wrapping for long sample text lines.
 - Empty practice rows now adjust to keep the worksheet row count stable when
   sample text wraps across multiple rows.
+- Removed the manual handwriting size control.
+- Sample text now uses automatic script-specific sizes so Cyrillic and Latin
+  handwriting fit the same guide row more consistently.
+- Tuned automatic handwriting metrics to `42px` / `0.8` line height for
+  Cyrillic/default text and `28px` / `1.2` line height for Latin text.
 
 ### Documentation
 

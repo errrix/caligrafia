@@ -109,8 +109,7 @@ h1 {
   font-weight: 700;
 }
 
-.field span,
-.range-field span {
+.field span {
   color: var(--muted);
   font-size: 12px;
   font-weight: 800;
@@ -152,32 +151,6 @@ h1 {
   background: #ffffff;
 }
 
-.settings-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-  margin: 20px 0;
-}
-
-.range-field {
-  display: grid;
-  gap: 8px;
-  color: var(--ink);
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.stepper {
-  display: grid;
-  grid-template-columns: 42px 1fr 42px;
-  height: 42px;
-  border: 1px solid var(--line-strong);
-  border-radius: 8px;
-  overflow: hidden;
-  background: var(--paper);
-}
-
-.stepper button,
 .rail-button,
 .preview-toolbar button,
 .primary-button,
@@ -188,36 +161,12 @@ h1 {
   cursor: pointer;
 }
 
-.stepper button {
-  display: grid;
-  place-items: center;
-  background: transparent;
-  transition:
-    background-color 140ms ease,
-    color 140ms ease;
-}
-
-.stepper button:hover {
-  background: var(--ink);
-  color: #ffffff;
-}
-
-.stepper button:focus-visible,
 .rail-button:focus-visible,
 .preview-toolbar button:focus-visible,
 .primary-button:focus-visible,
 .secondary-button:focus-visible {
   outline: 3px solid rgba(17, 17, 17, 0.16);
   outline-offset: 2px;
-}
-
-.stepper output {
-  display: grid;
-  place-items: center;
-  border-inline: 1px solid var(--line-strong);
-  color: var(--muted);
-  font-size: 15px;
-  font-weight: 800;
 }
 
 .action-row {
@@ -344,7 +293,8 @@ h1 {
 }
 
 .sheet {
-  --copy-size: 32px;
+  --copy-size-default: 42px;
+  --copy-size-latin: 28px;
   --block-gap: 0;
   --x-height: 4mm;
   --baseline-y: 8mm;
@@ -441,7 +391,6 @@ h1 {
   transform: translateY(1.25mm);
   color: rgba(35, 38, 41, 0.66);
   font-family: var(--handwriting);
-  font-size: var(--copy-size);
   font-weight: 400;
   line-height: 0.9;
   white-space: nowrap;
@@ -449,11 +398,17 @@ h1 {
 }
 
 .copy-run {
+  display: inline-block;
   font-family: var(--handwriting);
+  font-size: var(--copy-size-default);
+  line-height: 0.8;
+  vertical-align: baseline;
 }
 
 .copy-run-latin {
   font-family: var(--handwriting-latin);
+  font-size: var(--copy-size-latin);
+  line-height: 1.2;
   font-feature-settings:
     "calt" 1,
     "liga" 1;

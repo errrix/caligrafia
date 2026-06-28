@@ -2,11 +2,8 @@ import {
   CaseSensitive,
   Download,
   FileText,
-  Minus,
-  Plus,
   Printer,
   RotateCcw,
-  Ruler,
   Type,
 } from 'lucide-react'
 import type { CSSProperties } from 'react'
@@ -22,6 +19,11 @@ type CopyRun = {
   text: string
   script: 'default' | 'latin'
 }
+
+const copyFontSizes = {
+  default: 42,
+  latin: 28,
+} satisfies Record<CopyRun['script'], number>
 
 const latinLetterPattern = /\p{Script=Latin}/u
 const cyrillicLetterPattern = /\p{Script=Cyrillic}/u
@@ -53,18 +55,19 @@ function getScriptForChar(char: string): CopyRun['script'] {
   return 'default'
 }
 
-function measureCopyText(value: string, fontSize: number) {
+function measureCopyText(value: string) {
   const context = getMeasureContext()
 
   if (!context) {
-    return value.length * fontSize * 0.58
+    return value.length * copyFontSizes.default * 0.58
   }
 
   let width = 0
 
   for (const char of value) {
     const script = getScriptForChar(char)
-    const cacheKey = `${fontSize}:${script}:${char}`
+    const fontSize = copyFontSizes[script]
+    const cacheKey = `${script}:${char}`
     const cachedWidth = textMeasureCache.get(cacheKey)
 
     if (cachedWidth !== undefined) {
@@ -95,7 +98,7 @@ function findLastSoftBreak(value: string) {
   return -1
 }
 
-function wrapCopyLine(line: string, fontSize: number) {
+function wrapCopyLine(line: string) {
   if (!line) {
     return ['']
   }
@@ -107,7 +110,7 @@ function wrapCopyLine(line: string, fontSize: number) {
   for (const char of line) {
     const candidateLine = `${currentLine}${char}`
 
-    if (currentLine && measureCopyText(candidateLine, fontSize) > maxWidth) {
+    if (currentLine && measureCopyText(candidateLine) > maxWidth) {
       const breakIndex = findLastSoftBreak(currentLine)
 
       if (breakIndex > 0) {
@@ -127,8 +130,8 @@ function wrapCopyLine(line: string, fontSize: number) {
   return rows
 }
 
-function buildSampleRows(value: string, fontSize: number) {
-  return value.replace(/\r\n/g, '\n').split('\n').flatMap((line) => wrapCopyLine(line, fontSize))
+function buildSampleRows(value: string) {
+  return value.replace(/\r\n/g, '\n').split('\n').flatMap((line) => wrapCopyLine(line))
 }
 
 function splitPhraseByScript(value: string) {
@@ -161,7 +164,6 @@ function splitPhraseByScript(value: string) {
 function App() {
   const [sourcePhrase, setSourcePhrase] = useState(initialPhrase)
   const [studentName, setStudentName] = useState('Настя')
-  const [fontSize, setFontSize] = useState(32)
   const [, setFontMetricsVersion] = useState(0)
 
   useEffect(() => {
@@ -176,10 +178,11 @@ function App() {
   }, [])
 
   const phrase = sourcePhrase.trimEnd()
-  const sampleRows = buildSampleRows(phrase, fontSize)
+  const sampleRows = buildSampleRows(phrase)
   const emptyRows = Math.max(0, practiceRows + 1 - sampleRows.length)
   const sheetStyle = {
-    '--copy-size': `${fontSize}px`,
+    '--copy-size-default': `${copyFontSizes.default}px`,
+    '--copy-size-latin': `${copyFontSizes.latin}px`,
   } as CSSProperties
 
   return (
@@ -190,9 +193,6 @@ function App() {
         </div>
         <a className="rail-button" href="#sheet-text" aria-label="Текст листа" title="Текст листа">
           <Type size={20} strokeWidth={1.9} />
-        </a>
-        <a className="rail-button" href="#letter-size" aria-label="Размер письма" title="Размер письма">
-          <Ruler size={20} strokeWidth={1.9} />
         </a>
         <button className="rail-button" type="button" onClick={() => window.print()} aria-label="Печать">
           <Printer size={20} strokeWidth={1.9} />
@@ -226,29 +226,6 @@ function App() {
           />
         </label>
 
-        <div className="settings-grid">
-          <label className="range-field" id="letter-size">
-            <span>Размер текста</span>
-            <div className="stepper">
-              <button
-                type="button"
-                onClick={() => setFontSize((value) => Math.max(24, value - 1))}
-                aria-label="Уменьшить размер текста"
-              >
-                <Minus size={16} />
-              </button>
-              <output>{fontSize}px</output>
-              <button
-                type="button"
-                onClick={() => setFontSize((value) => Math.min(42, value + 1))}
-                aria-label="Увеличить размер текста"
-              >
-                <Plus size={16} />
-              </button>
-            </div>
-          </label>
-        </div>
-
         <div className="action-row">
           <button className="secondary-button" type="button" onClick={() => setSourcePhrase(initialPhrase)}>
             <RotateCcw size={17} />
@@ -276,8 +253,8 @@ function App() {
             <span>210 x 297 мм</span>
           </div>
           <div className="metric">
-            <strong>{fontSize}</strong>
-            <span>px размер букв</span>
+            <strong>Авто</strong>
+            <span>по высоте строки</span>
           </div>
         </div>
 
