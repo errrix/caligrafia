@@ -90,3 +90,5 @@ npm run lint
   guidance, and documentation navigation from `README.md` into `AGENTS.md`.
 - Reduced `README.md` to a human-facing project summary with links to
   `AGENTS.md` and the detailed documentation.
+- Added a GitHub Actions workflow that builds `dist` and deploys it to GitHub
+  Pages on pushes to `main`.
