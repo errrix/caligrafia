@@ -69,6 +69,9 @@ npm run lint
 
 ### Features
 
+- Reworked the generator UI around the selected command-style concept.
+- Added a compact tool rail, denser settings panel, preview metrics, and a
+  framed sheet workspace while preserving the existing A4 worksheet output.
 - Replaced the worksheet phrase input with a multi-line textarea.
 - Preserved explicit line breaks from the phrase textarea on the worksheet.
 - Added sheet-width-aware wrapping for long sample text lines.

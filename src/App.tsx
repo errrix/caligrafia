@@ -1,4 +1,14 @@
-import { Download, FileText, Minus, Plus, Printer, RotateCcw } from 'lucide-react'
+import {
+  CaseSensitive,
+  Download,
+  FileText,
+  Minus,
+  Plus,
+  Printer,
+  RotateCcw,
+  Ruler,
+  Type,
+} from 'lucide-react'
 import type { CSSProperties } from 'react'
 import { useEffect, useState } from 'react'
 import './App.css'
@@ -174,6 +184,21 @@ function App() {
 
   return (
     <main className="app-shell">
+      <aside className="tool-rail" aria-label="Инструменты генератора">
+        <div className="rail-logo" aria-hidden="true">
+          A4
+        </div>
+        <a className="rail-button" href="#sheet-text" aria-label="Текст листа" title="Текст листа">
+          <Type size={20} strokeWidth={1.9} />
+        </a>
+        <a className="rail-button" href="#letter-size" aria-label="Размер письма" title="Размер письма">
+          <Ruler size={20} strokeWidth={1.9} />
+        </a>
+        <button className="rail-button" type="button" onClick={() => window.print()} aria-label="Печать">
+          <Printer size={20} strokeWidth={1.9} />
+        </button>
+      </aside>
+
       <section className="control-panel" aria-label="Настройки листа">
         <div className="brand-row">
           <div className="brand-mark">
@@ -181,7 +206,7 @@ function App() {
           </div>
           <div>
             <p className="eyebrow">Генератор прописей</p>
-            <h1>Пропись как тетрадный лист</h1>
+            <h1>Рабочий лист A4</h1>
           </div>
         </div>
 
@@ -193,6 +218,7 @@ function App() {
         <label className="field">
           <span>Фраза для листа</span>
           <textarea
+            id="sheet-text"
             value={sourcePhrase}
             onChange={(event) => setSourcePhrase(event.target.value)}
             rows={4}
@@ -201,14 +227,22 @@ function App() {
         </label>
 
         <div className="settings-grid">
-          <label className="range-field">
+          <label className="range-field" id="letter-size">
             <span>Размер текста</span>
             <div className="stepper">
-              <button type="button" onClick={() => setFontSize((value) => Math.max(24, value - 1))}>
+              <button
+                type="button"
+                onClick={() => setFontSize((value) => Math.max(24, value - 1))}
+                aria-label="Уменьшить размер текста"
+              >
                 <Minus size={16} />
               </button>
               <output>{fontSize}px</output>
-              <button type="button" onClick={() => setFontSize((value) => Math.min(42, value + 1))}>
+              <button
+                type="button"
+                onClick={() => setFontSize((value) => Math.min(42, value + 1))}
+                aria-label="Увеличить размер текста"
+              >
                 <Plus size={16} />
               </button>
             </div>
@@ -232,45 +266,65 @@ function App() {
       </section>
 
       <section className="preview-stage" aria-label="Предпросмотр A4">
+        <div className="metrics-grid" aria-label="Параметры листа">
+          <div className="metric">
+            <strong>{practiceRows}</strong>
+            <span>строк для письма</span>
+          </div>
+          <div className="metric">
+            <strong>A4</strong>
+            <span>210 x 297 мм</span>
+          </div>
+          <div className="metric">
+            <strong>{fontSize}</strong>
+            <span>px размер букв</span>
+          </div>
+        </div>
+
         <div className="preview-toolbar">
-          <span>{practiceRows} строк для письма</span>
+          <span>
+            <CaseSensitive size={16} />
+            Образец + строки для письма
+          </span>
           <button type="button" onClick={() => window.print()}>
             <Download size={16} />
             PDF
           </button>
         </div>
 
-        <article className="sheet" style={sheetStyle}>
-          <div className="sheet-body">
-            {phrase.trim() ? (
-              <section className="practice-block">
-                {sampleRows.map((sampleRow, rowIndex) => (
-                  <div className="copy-row sample-row" key={`sample-${rowIndex}`}>
-                    <p>
-                      {splitPhraseByScript(sampleRow).map((run, index) => (
-                        <span
-                          className={run.script === 'latin' ? 'copy-run copy-run-latin' : 'copy-run'}
-                          key={`${run.script}-${rowIndex}-${index}`}
-                        >
-                          {run.text || '\u00A0'}
-                        </span>
-                      ))}
-                    </p>
-                  </div>
-                ))}
-                {Array.from({ length: emptyRows }, (_, index) => (
-                  <div
-                    className="copy-row empty-row"
-                    aria-label="Пустая строка для письма"
-                    key={index}
-                  />
-                ))}
-              </section>
-            ) : (
-              <div className="empty-state">Добавь фразу слева, и здесь появится лист.</div>
-            )}
-          </div>
-        </article>
+        <div className="sheet-frame">
+          <article className="sheet" style={sheetStyle}>
+            <div className="sheet-body">
+              {phrase.trim() ? (
+                <section className="practice-block">
+                  {sampleRows.map((sampleRow, rowIndex) => (
+                    <div className="copy-row sample-row" key={`sample-${rowIndex}`}>
+                      <p>
+                        {splitPhraseByScript(sampleRow).map((run, index) => (
+                          <span
+                            className={run.script === 'latin' ? 'copy-run copy-run-latin' : 'copy-run'}
+                            key={`${run.script}-${rowIndex}-${index}`}
+                          >
+                            {run.text || '\u00A0'}
+                          </span>
+                        ))}
+                      </p>
+                    </div>
+                  ))}
+                  {Array.from({ length: emptyRows }, (_, index) => (
+                    <div
+                      className="copy-row empty-row"
+                      aria-label="Пустая строка для письма"
+                      key={index}
+                    />
+                  ))}
+                </section>
+              ) : (
+                <div className="empty-state">Добавь фразу слева, и здесь появится лист.</div>
+              )}
+            </div>
+          </article>
+        </div>
       </section>
     </main>
   )

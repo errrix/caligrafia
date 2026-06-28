@@ -23,14 +23,14 @@
 }
 
 :root {
-  --app-bg: #ebe7dc;
-  --paper: #fffdf6;
-  --ink: #29251f;
-  --muted: #756d60;
-  --accent: #22746b;
-  --wash: #eef3ea;
-  --line-strong: #cfc5b3;
-  --shadow-ink: rgba(41, 37, 31, 0.12);
+  --app-bg: #f7f7f4;
+  --paper: #ffffff;
+  --ink: #111111;
+  --muted: #676761;
+  --accent: #111111;
+  --wash: #efefe9;
+  --line-strong: #d8d8d1;
+  --shadow-ink: rgba(17, 17, 17, 0.12);
   --sans: "Trebuchet MS", "Segoe UI", sans-serif;
   --serif: Georgia, "Times New Roman", serif;
   --handwriting: "Propisi", "Primo", "Segoe Print", "Comic Sans MS", cursive;
@@ -71,5 +71,5 @@ button svg {
 }
 
 ::selection {
-  background: rgba(34, 116, 107, 0.18);
+  background: rgba(17, 17, 17, 0.16);
 }

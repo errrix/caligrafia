@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Caligrafia UI concept 04 - Command</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="layout-command">
+    <nav class="concept-nav" aria-label="UI concepts">
+      <strong>Caligrafia UI research</strong>
+      <a href="./01-workbench.html">01 Workbench</a>
+      <a href="./02-flow.html">02 Flow</a>
+      <a href="./03-notebook.html">03 Notebook</a>
+      <a href="./04-command.html" aria-current="page">04 Command</a>
+      <a href="./05-atelier.html">05 Atelier</a>
+      <a href="./index.html">All</a>
+    </nav>
+
+    <main class="command-main">
+      <aside class="rail" aria-label="Инструменты">
+        <button class="rail-button" type="button" aria-label="Лист">A4</button>
+        <button class="rail-button" type="button" aria-label="Текст">T</button>
+        <button class="rail-button" type="button" aria-label="Размер">±</button>
+        <button class="rail-button" type="button" aria-label="Печать">⎙</button>
+      </aside>
+
+      <section class="command-controls" aria-label="Настройки">
+        <div class="command-title">
+          <p class="research-note">04 / Рабочая станция</p>
+          <h1>Генератор листа</h1>
+        </div>
+
+        <label class="field">
+          <span>Имя</span>
+          <input value="Настя" />
+        </label>
+
+        <label class="field">
+          <span>Фраза</span>
+          <textarea spellcheck="false">Нельзя выбрасывать подарки!</textarea>
+        </label>
+
+        <label class="field">
+          <span>Размер текста</span>
+          <div class="size-control">
+            <button class="size-button" type="button" aria-label="Уменьшить">−</button>
+            <output class="size-value">32 px</output>
+            <button class="size-button" type="button" aria-label="Увеличить">+</button>
+          </div>
+        </label>
+
+        <div class="command-actions">
+          <button class="ghost-button" type="button">Сброс</button>
+          <button class="primary-button" type="button">PDF</button>
+        </div>
+      </section>
+
+      <section class="command-preview" aria-label="Предпросмотр и параметры">
+        <div class="command-metrics">
+          <div class="metric"><strong>20</strong><span>строк для письма</span></div>
+          <div class="metric"><strong>A4</strong><span>210 × 297 мм</span></div>
+          <div class="metric"><strong>32</strong><span>px размер букв</span></div>
+        </div>
+        <div class="command-sheet-area">
+          <article class="sheet-mini" aria-label="Макет листа">
+            <p class="sample-copy">Нельзя выбрасывать подарки!</p>
+            <div class="sheet-lines">
+              <div class="sheet-row"></div><div class="sheet-row"></div><div class="sheet-row"></div>
+              <div class="sheet-row"></div><div class="sheet-row"></div><div class="sheet-row"></div>
+              <div class="sheet-row"></div><div class="sheet-row"></div><div class="sheet-row"></div>
+              <div class="sheet-row"></div><div class="sheet-row"></div><div class="sheet-row"></div>
+              <div class="sheet-row"></div><div class="sheet-row"></div><div class="sheet-row"></div>
+              <div class="sheet-row"></div><div class="sheet-row"></div><div class="sheet-row"></div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

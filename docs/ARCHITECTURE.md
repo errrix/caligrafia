@@ -70,7 +70,7 @@ The main application component. It currently owns:
 - phrase segmentation by script for handwriting font selection;
 - sample text wrapping by sheet width and explicit line breaks;
 - handlers for size controls, reset, and print;
-- control panel markup;
+- command-style tool rail, control panel markup, and preview metrics;
 - sheet preview markup;
 - empty practice row generation through `practiceRows`.
 
@@ -83,7 +83,8 @@ size, but the first likely extraction points are `ControlPanel` and
 Contains most of the visual behavior:
 
 - application layout;
-- control panel styles;
+- command-style tool rail, control panel, preview metrics, and sheet preview
+  shell styles;
 - A4 sheet dimensions;
 - writing guide lines;
 - responsive preview scaling;
@@ -143,6 +144,7 @@ Key rules live in `@media print`:
 
 - `@page { size: A4; margin: 0; }`;
 - hide `.control-panel` and `.preview-toolbar`;
+- hide the tool rail and preview metrics;
 - reset screen preview scaling;
 - remove shadows;
 - preserve printed colors through `print-color-adjust`.
