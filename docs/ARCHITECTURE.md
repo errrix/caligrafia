@@ -29,27 +29,29 @@ User
 
 ```text
 .
-├── docs/
-│   ├── ARCHITECTURE.md
-│   ├── FEATURE_ORCHESTRATION.md
-│   └── PROJECT_CHANGES.md
-├── public/
-│   ├── favicon.svg
-│   ├── icons.svg
-│   └── fonts/
-│       ├── primo.ttf
-│       └── propisi.ttf
-├── scripts/
-│   └── fix-dist-file-url.mjs
-├── src/
-│   ├── App.css
-│   ├── App.tsx
-│   ├── index.css
-│   └── main.tsx
-├── index.html
-├── package.json
-├── tsconfig*.json
-└── vite.config.ts
+|-- docs/
+|   |-- ARCHITECTURE.md
+|   |-- FEATURE_ORCHESTRATION.md
+|   `-- PROJECT_CHANGES.md
+|-- public/
+|   |-- favicon.svg
+|   |-- icons.svg
+|   `-- fonts/
+|       |-- playwrite-us-trad-OFL.txt
+|       |-- playwrite-us-trad.ttf
+|       |-- primo.ttf
+|       `-- propisi.ttf
+|-- scripts/
+|   `-- fix-dist-file-url.mjs
+|-- src/
+|   |-- App.css
+|   |-- App.tsx
+|   |-- index.css
+|   `-- main.tsx
+|-- index.html
+|-- package.json
+|-- tsconfig*.json
+`-- vite.config.ts
 ```
 
 ## Entry Points
@@ -65,6 +67,7 @@ The main application component. It currently owns:
 - phrase state;
 - student name state;
 - handwriting font size state;
+- phrase segmentation by script for handwriting font selection;
 - handlers for size controls, reset, and print;
 - control panel markup;
 - sheet preview markup;
@@ -97,8 +100,17 @@ Sheet geometry is controlled by CSS variables inside `.sheet`:
 Global application styles:
 
 - local font loading;
+- handwriting font stacks for Cyrillic/default text and Latin text;
 - color CSS variables;
 - base styles for `html`, `body`, `button`, `input`, and `textarea`.
+
+Worksheet handwriting fonts are part of the product behavior, not decorative UI
+styling. Fonts used on the A4 sheet should look like school copybook models. For
+Latin cursive worksheets, the primary font must support connected letters,
+visible rightward slant, and complete cursive letterforms with the expected
+entry/exit strokes and loops. Decorative script fonts, casual handwriting fonts,
+upright joined fonts, non-joined manuscript fonts, and generic system fallbacks
+should only be fallback options after a suitable local worksheet font.
 
 ## Data and State
 
@@ -106,6 +118,7 @@ State lives only in `App.tsx` through `useState`:
 
 ```text
 sourcePhrase -> worksheet phrase text
+phraseRuns   -> derived script-aware phrase segments
 studentName  -> student name in the control panel
 fontSize     -> handwriting text size
 ```

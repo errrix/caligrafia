@@ -6,12 +6,48 @@ import './App.css'
 const initialPhrase = 'Нельзя выбрасывать подарки!'
 const practiceRows = 20
 
+type CopyRun = {
+  text: string
+  script: 'default' | 'latin'
+}
+
+const latinLetterPattern = /\p{Script=Latin}/u
+const cyrillicLetterPattern = /\p{Script=Cyrillic}/u
+
+function splitPhraseByScript(value: string) {
+  const runs: CopyRun[] = []
+  let currentScript: CopyRun['script'] = 'default'
+
+  for (const char of value) {
+    let script: CopyRun['script'] = currentScript
+
+    if (latinLetterPattern.test(char)) {
+      script = 'latin'
+    } else if (cyrillicLetterPattern.test(char)) {
+      script = 'default'
+    }
+
+    const currentRun = runs.at(-1)
+
+    if (currentRun && currentRun.script === script) {
+      currentRun.text += char
+    } else {
+      runs.push({ text: char, script })
+    }
+
+    currentScript = script
+  }
+
+  return runs
+}
+
 function App() {
   const [sourcePhrase, setSourcePhrase] = useState(initialPhrase)
   const [studentName, setStudentName] = useState('Настя')
   const [fontSize, setFontSize] = useState(32)
 
   const phrase = sourcePhrase.trim()
+  const phraseRuns = splitPhraseByScript(phrase)
   const sheetStyle = {
     '--copy-size': `${fontSize}px`,
   } as CSSProperties
@@ -70,8 +106,7 @@ function App() {
         </div>
 
         <p className="note">
-          Фраза печатается образцом в первой строке. Остальные строки остаются пустыми для
-          самостоятельного письма до конца листа.
+          Фраза печатается образцом в первой строке. Остальные строки остаются пустыми для самостоятельного письма до конца листа.
         </p>
       </section>
 
@@ -89,7 +124,16 @@ function App() {
             {phrase ? (
               <section className="practice-block">
                 <div className="copy-row sample-row">
-                  <p>{phrase}</p>
+                  <p>
+                    {phraseRuns.map((run, index) => (
+                      <span
+                        className={run.script === 'latin' ? 'copy-run copy-run-latin' : 'copy-run'}
+                        key={`${run.script}-${index}`}
+                      >
+                        {run.text}
+                      </span>
+                    ))}
+                  </p>
                 </div>
                 {Array.from({ length: practiceRows }, (_, index) => (
                   <div

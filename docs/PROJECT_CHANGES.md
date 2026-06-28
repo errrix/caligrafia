@@ -44,6 +44,15 @@ npm run lint
 
 ## 2026-06-28
 
+### Features
+
+- Added Latin handwriting fallback support for worksheet sample text.
+- Mixed Cyrillic and Latin phrases now render each script with an appropriate
+  handwriting font stack.
+- Added local `Playwrite US Trad` for slanted connected English worksheet
+  handwriting, with its SIL Open Font License file.
+- Restored readable Russian UI/default text in the React source.
+
 ### Documentation
 
 - Shortened `README.md` into a project entry point with quick start commands and

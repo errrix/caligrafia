@@ -346,6 +346,18 @@ h1 {
   text-overflow: ellipsis;
 }
 
+.copy-run {
+  font-family: var(--handwriting);
+}
+
+.copy-run-latin {
+  font-family: var(--handwriting-latin);
+  font-feature-settings:
+    "calt" 1,
+    "liga" 1;
+  font-variant-ligatures: contextual common-ligatures;
+}
+
 .empty-row {
   min-width: 100%;
 }
