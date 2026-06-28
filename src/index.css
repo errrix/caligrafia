@@ -1,0 +1,66 @@
+@font-face {
+  font-family: "Propisi";
+  src: url("/fonts/propisi.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Primo";
+  src: url("/fonts/primo.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --app-bg: #ebe7dc;
+  --paper: #fffdf6;
+  --ink: #29251f;
+  --muted: #756d60;
+  --accent: #22746b;
+  --wash: #eef3ea;
+  --line-strong: #cfc5b3;
+  --shadow-ink: rgba(41, 37, 31, 0.12);
+  --sans: "Trebuchet MS", "Segoe UI", sans-serif;
+  --serif: Georgia, "Times New Roman", serif;
+  --handwriting: "Propisi", "Primo", "Segoe Print", "Comic Sans MS", cursive;
+
+  color: var(--ink);
+  background: var(--app-bg);
+  font-family: var(--sans);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  background: var(--app-bg);
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button svg {
+  flex: 0 0 auto;
+}
+
+::selection {
+  background: rgba(34, 116, 107, 0.18);
+}
