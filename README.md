@@ -32,9 +32,10 @@ Team chat and planning may happen in Russian, but committed documentation in
 
 ## Feature Work
 
-Before implementing any new feature or user-visible behavior change, follow the
-pipeline in [Feature Orchestration](docs/FEATURE_ORCHESTRATION.md). Start with
-the business analysis stage, then move through development, QA/testing, and
+Before implementing any new feature or user-visible behavior change, classify
+the task and follow the matching route in
+[Feature Orchestration](docs/FEATURE_ORCHESTRATION.md). Clear features start
+with Business Analysis, then move through development, QA/testing, and
 documentation/release.
 
 When the desired solution is unclear, start with the Product Research stage

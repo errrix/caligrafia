@@ -62,3 +62,6 @@ npm run lint
 - Added the architecture document.
 - Standardized project documentation language as English.
 - Added the feature orchestration process for future feature work.
+- Strengthened the feature orchestration process with task classification,
+  agent entry rules, fast paths, and an owner decision gate for product
+  research.
