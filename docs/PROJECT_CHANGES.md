@@ -92,3 +92,5 @@ npm run lint
   `AGENTS.md` and the detailed documentation.
 - Added a GitHub Actions workflow that builds `dist` and deploys it to GitHub
   Pages on pushes to `main`.
+- Updated the GitHub Pages deployment workflow to current Node 24-based action
+  versions.
