@@ -37,6 +37,10 @@ pipeline in [Feature Orchestration](docs/FEATURE_ORCHESTRATION.md). Start with
 the business analysis stage, then move through development, QA/testing, and
 documentation/release.
 
+When the desired solution is unclear, start with the Product Research stage
+instead. For example: "Run product research: I do not like this result, but I do
+not know what I want yet. Do not code; suggest options first."
+
 ## Documentation
 
 - [Project Changes](docs/PROJECT_CHANGES.md)

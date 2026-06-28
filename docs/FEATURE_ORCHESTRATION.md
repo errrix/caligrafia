@@ -16,6 +16,7 @@ follow.
 
 ```text
 Feature Request
+  -> Product Research (when the desired solution is unclear)
   -> Business Analysis
   -> Development
   -> QA / Testing
@@ -24,6 +25,82 @@ Feature Request
 
 Each stage receives a structured input and must produce a structured handoff for
 the next stage.
+
+## Optional Stage 0: Product Research
+
+### Responsibility
+
+The product researcher helps when the user can describe dissatisfaction,
+friction, or a weak result, but cannot yet define the desired solution. This
+stage explores alternatives and turns vague feedback into a small set of
+actionable product directions. It must not edit code.
+
+### Inputs
+
+- User feedback in plain language.
+- Screenshots or examples of what feels wrong, when available.
+- Current project documentation.
+- Current implementation, when needed to understand constraints.
+- Comparable product patterns or external references, when useful.
+
+### Required Checks
+
+- What exactly feels wrong to the user?
+- Is the problem visual, workflow-related, technical, content-related, or a
+  mismatch with the product concept?
+- What constraints must any solution preserve?
+- What are 2-4 plausible directions?
+- What are the tradeoffs between those directions?
+- What would be a minimal experiment or prototype for each viable direction?
+- What decision does the user need to make before Business Analysis can produce
+  acceptance criteria?
+
+### Output Format
+
+```md
+## Product Research Result
+
+### Problem Framing
+Short description of the dissatisfaction or weak result.
+
+### Observations
+- Concrete observations from screenshots, implementation, documentation, or
+  references.
+
+### Product Criteria
+- Qualities the eventual solution should satisfy.
+
+### Options
+- Option name: what it changes, why it may help, and tradeoffs.
+
+### Recommendation
+The best next direction and why.
+
+### Open Questions
+- Questions that need user or product-owner input.
+
+### Business Analysis Handoff
+Concrete brief or decision needed before entering Business Analysis.
+```
+
+### Stop Conditions
+
+The product researcher must stop before Business Analysis if:
+
+- multiple viable directions remain and the choice is subjective;
+- the problem depends on audience, pedagogy, brand, or domain knowledge that is
+  not documented;
+- no observable acceptance criteria can be written yet.
+
+### How To Invoke
+
+Use this stage when the request sounds like:
+
+- "I do not like this, but I do not know what I want."
+- "Something feels wrong."
+- "Suggest better approaches before implementation."
+- "Research options first."
+- "Do not code yet; help me decide."
 
 ## Stage 1: Business Analysis
 
