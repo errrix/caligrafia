@@ -1,10 +1,12 @@
 import { Download, FileText, Minus, Plus, Printer, RotateCcw } from 'lucide-react'
 import type { CSSProperties } from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 
 const initialPhrase = 'Нельзя выбрасывать подарки!'
 const practiceRows = 20
+const sheetTextWidthMm = 172
+const cssPxPerMm = 96 / 25.4
 
 type CopyRun = {
   text: string
@@ -13,6 +15,111 @@ type CopyRun = {
 
 const latinLetterPattern = /\p{Script=Latin}/u
 const cyrillicLetterPattern = /\p{Script=Cyrillic}/u
+const whitespacePattern = /\s/
+const textMeasureCache = new Map<string, number>()
+let measureCanvasContext: CanvasRenderingContext2D | null = null
+
+function getMeasureContext() {
+  if (typeof document === 'undefined') {
+    return null
+  }
+
+  if (!measureCanvasContext) {
+    measureCanvasContext = document.createElement('canvas').getContext('2d')
+  }
+
+  return measureCanvasContext
+}
+
+function getScriptForChar(char: string): CopyRun['script'] {
+  if (latinLetterPattern.test(char)) {
+    return 'latin'
+  }
+
+  if (cyrillicLetterPattern.test(char)) {
+    return 'default'
+  }
+
+  return 'default'
+}
+
+function measureCopyText(value: string, fontSize: number) {
+  const context = getMeasureContext()
+
+  if (!context) {
+    return value.length * fontSize * 0.58
+  }
+
+  let width = 0
+
+  for (const char of value) {
+    const script = getScriptForChar(char)
+    const cacheKey = `${fontSize}:${script}:${char}`
+    const cachedWidth = textMeasureCache.get(cacheKey)
+
+    if (cachedWidth !== undefined) {
+      width += cachedWidth
+      continue
+    }
+
+    context.font =
+      script === 'latin'
+        ? `${fontSize}px "Playwrite US Trad", "Segoe Print", cursive`
+        : `${fontSize}px "Propisi", "Primo", "Segoe Print", "Comic Sans MS", cursive`
+
+    const measuredWidth = context.measureText(char).width
+    textMeasureCache.set(cacheKey, measuredWidth)
+    width += measuredWidth
+  }
+
+  return width
+}
+
+function findLastSoftBreak(value: string) {
+  for (let index = value.length - 1; index > 0; index -= 1) {
+    if (whitespacePattern.test(value[index])) {
+      return index
+    }
+  }
+
+  return -1
+}
+
+function wrapCopyLine(line: string, fontSize: number) {
+  if (!line) {
+    return ['']
+  }
+
+  const maxWidth = sheetTextWidthMm * cssPxPerMm
+  const rows: string[] = []
+  let currentLine = ''
+
+  for (const char of line) {
+    const candidateLine = `${currentLine}${char}`
+
+    if (currentLine && measureCopyText(candidateLine, fontSize) > maxWidth) {
+      const breakIndex = findLastSoftBreak(currentLine)
+
+      if (breakIndex > 0) {
+        rows.push(currentLine.slice(0, breakIndex).trimEnd())
+        currentLine = `${currentLine.slice(breakIndex).trimStart()}${char}`
+      } else {
+        rows.push(currentLine)
+        currentLine = char
+      }
+    } else {
+      currentLine = candidateLine
+    }
+  }
+
+  rows.push(currentLine)
+
+  return rows
+}
+
+function buildSampleRows(value: string, fontSize: number) {
+  return value.replace(/\r\n/g, '\n').split('\n').flatMap((line) => wrapCopyLine(line, fontSize))
+}
 
 function splitPhraseByScript(value: string) {
   const runs: CopyRun[] = []
@@ -45,9 +152,22 @@ function App() {
   const [sourcePhrase, setSourcePhrase] = useState(initialPhrase)
   const [studentName, setStudentName] = useState('Настя')
   const [fontSize, setFontSize] = useState(32)
+  const [, setFontMetricsVersion] = useState(0)
 
-  const phrase = sourcePhrase.trim()
-  const phraseRuns = splitPhraseByScript(phrase)
+  useEffect(() => {
+    if (typeof document === 'undefined' || !document.fonts) {
+      return
+    }
+
+    document.fonts.ready.then(() => {
+      textMeasureCache.clear()
+      setFontMetricsVersion((version) => version + 1)
+    })
+  }, [])
+
+  const phrase = sourcePhrase.trimEnd()
+  const sampleRows = buildSampleRows(phrase, fontSize)
+  const emptyRows = Math.max(0, practiceRows + 1 - sampleRows.length)
   const sheetStyle = {
     '--copy-size': `${fontSize}px`,
   } as CSSProperties
@@ -72,9 +192,10 @@ function App() {
 
         <label className="field">
           <span>Фраза для листа</span>
-          <input
+          <textarea
             value={sourcePhrase}
             onChange={(event) => setSourcePhrase(event.target.value)}
+            rows={4}
             spellCheck="false"
           />
         </label>
@@ -106,7 +227,7 @@ function App() {
         </div>
 
         <p className="note">
-          Фраза печатается образцом в первой строке. Остальные строки остаются пустыми для самостоятельного письма до конца листа.
+          Фраза печатается образцом сверху. Длинные строки переносятся по ширине листа, а переносы в поле сохраняются.
         </p>
       </section>
 
@@ -121,21 +242,23 @@ function App() {
 
         <article className="sheet" style={sheetStyle}>
           <div className="sheet-body">
-            {phrase ? (
+            {phrase.trim() ? (
               <section className="practice-block">
-                <div className="copy-row sample-row">
-                  <p>
-                    {phraseRuns.map((run, index) => (
-                      <span
-                        className={run.script === 'latin' ? 'copy-run copy-run-latin' : 'copy-run'}
-                        key={`${run.script}-${index}`}
-                      >
-                        {run.text}
-                      </span>
-                    ))}
-                  </p>
-                </div>
-                {Array.from({ length: practiceRows }, (_, index) => (
+                {sampleRows.map((sampleRow, rowIndex) => (
+                  <div className="copy-row sample-row" key={`sample-${rowIndex}`}>
+                    <p>
+                      {splitPhraseByScript(sampleRow).map((run, index) => (
+                        <span
+                          className={run.script === 'latin' ? 'copy-run copy-run-latin' : 'copy-run'}
+                          key={`${run.script}-${rowIndex}-${index}`}
+                        >
+                          {run.text || '\u00A0'}
+                        </span>
+                      ))}
+                    </p>
+                  </div>
+                ))}
+                {Array.from({ length: emptyRows }, (_, index) => (
                   <div
                     className="copy-row empty-row"
                     aria-label="Пустая строка для письма"

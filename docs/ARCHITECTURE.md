@@ -68,6 +68,7 @@ The main application component. It currently owns:
 - student name state;
 - handwriting font size state;
 - phrase segmentation by script for handwriting font selection;
+- sample text wrapping by sheet width and explicit line breaks;
 - handlers for size controls, reset, and print;
 - control panel markup;
 - sheet preview markup;
@@ -117,8 +118,9 @@ should only be fallback options after a suitable local worksheet font.
 State lives only in `App.tsx` through `useState`:
 
 ```text
-sourcePhrase -> worksheet phrase text
-phraseRuns   -> derived script-aware phrase segments
+sourcePhrase -> worksheet phrase text, including explicit line breaks
+sampleRows   -> derived sheet rows after width-aware wrapping
+phraseRuns   -> derived script-aware phrase segments for each sample row
 studentName  -> student name in the control panel
 fontSize     -> handwriting text size
 ```
@@ -176,7 +178,7 @@ instead of through an HTTP server.
 
 - Render the student name on the sheet.
 - Add multiple phrases or multiple sheets.
-- Implement wrapping for long phrases.
+- Add controls for row count or page overflow behavior.
 - Extract `ControlPanel` and `PracticeSheet` components.
 - Add settings persistence.
 - Add visual verification for the printed sheet.

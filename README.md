@@ -4,43 +4,8 @@ A browser-based A4 handwriting worksheet generator. The app lets users enter a
 phrase, adjust the handwriting size, preview the sheet, and print it or save it
 as PDF through the browser print dialog.
 
-## Quick Start
-
-```bash
-npm install
-npm run dev
-```
-
-Production build:
-
-```bash
-npm run build
-```
-
-Checks:
-
-```bash
-npm run lint
-```
-
-## Documentation Language
-
-All project documentation must be written in English.
-
-Team chat and planning may happen in Russian, but committed documentation in
-`README.md` and `docs/` stays English.
-
-## Feature Work
-
-Before implementing any new feature or user-visible behavior change, classify
-the task and follow the matching route in
-[Feature Orchestration](docs/FEATURE_ORCHESTRATION.md). Clear features start
-with Business Analysis, then move through development, QA/testing, and
-documentation/release.
-
-When the desired solution is unclear, start with the Product Research stage
-instead. For example: "Run product research: I do not like this result, but I do
-not know what I want yet. Do not code; suggest options first."
+Agent startup instructions, project commands, and delivery workflow live in
+[AGENTS.md](AGENTS.md).
 
 ## Documentation
 

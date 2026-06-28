@@ -37,7 +37,6 @@ npm run lint
 
 - The student name is stored in state but is not rendered on the worksheet yet.
 - The app generates one sheet for one phrase.
-- Long phrases do not wrap automatically; the text is designed for one line.
 - PDF output is produced by the browser, not by a dedicated PDF engine.
 - User settings are not persisted between sessions.
 - There are no UI tests or visual regression checks for the printed sheet.
@@ -65,3 +64,21 @@ npm run lint
 - Strengthened the feature orchestration process with task classification,
   agent entry rules, fast paths, and an owner decision gate for product
   research.
+
+## 2026-06-29
+
+### Features
+
+- Replaced the worksheet phrase input with a multi-line textarea.
+- Preserved explicit line breaks from the phrase textarea on the worksheet.
+- Added sheet-width-aware wrapping for long sample text lines.
+- Empty practice rows now adjust to keep the worksheet row count stable when
+  sample text wraps across multiple rows.
+
+### Documentation
+
+- Added repository-level `AGENTS.md` as the agent startup entry point.
+- Moved startup commands, documentation language rules, feature workflow
+  guidance, and documentation navigation from `README.md` into `AGENTS.md`.
+- Reduced `README.md` to a human-facing project summary with links to
+  `AGENTS.md` and the detailed documentation.

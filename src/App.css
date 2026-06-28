@@ -90,7 +90,7 @@ h1 {
 }
 
 .field textarea {
-  min-height: 186px;
+  min-height: 118px;
   resize: vertical;
   padding: 13px;
 }
@@ -343,7 +343,6 @@ h1 {
   line-height: 0.9;
   white-space: nowrap;
   overflow: visible;
-  text-overflow: ellipsis;
 }
 
 .copy-run {
