@@ -74,3 +74,9 @@ not know what I want yet. Do not code; suggest options first."
 - Run `npm run lint` and `npm run build` for feature or behavior changes.
 - Update `docs/PROJECT_CHANGES.md` for user-visible or workflow-relevant changes.
 - Update `docs/ARCHITECTURE.md` when state ownership, rendering behavior, print behavior, build flow, or major technical behavior changes.
+
+## Git Workflow
+
+For code changes, create a new working branch before editing. When the work is
+complete, verified, and committed, merge the branch back into `main` and push
+`main` to `origin`.
