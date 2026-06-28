@@ -30,6 +30,13 @@ All project documentation must be written in English.
 Team chat and planning may happen in Russian, but committed documentation in
 `README.md` and `docs/` stays English.
 
+## Feature Work
+
+Before implementing any new feature or user-visible behavior change, follow the
+pipeline in [Feature Orchestration](docs/FEATURE_ORCHESTRATION.md). Start with
+the business analysis stage, then move through development, QA/testing, and
+documentation/release.
+
 ## Documentation
 
 - [Project Changes](docs/PROJECT_CHANGES.md)
