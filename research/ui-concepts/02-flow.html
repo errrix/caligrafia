@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Caligrafia UI concept 02 - Flow</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="layout-flow">
+    <nav class="concept-nav" aria-label="UI concepts">
+      <strong>Caligrafia UI research</strong>
+      <a href="./01-workbench.html">01 Workbench</a>
+      <a href="./02-flow.html" aria-current="page">02 Flow</a>
+      <a href="./03-notebook.html">03 Notebook</a>
+      <a href="./04-command.html">04 Command</a>
+      <a href="./05-atelier.html">05 Atelier</a>
+      <a href="./index.html">All</a>
+    </nav>
+
+    <main class="flow-main">
+      <section class="flow-hero">
+        <div>
+          <p class="research-note">02 / Быстрый поток</p>
+          <h1>Фраза → лист → печать</h1>
+        </div>
+        <p class="research-note">
+          Генератор выглядит легче и быстрее: ключевые поля подняты наверх, а лист занимает основное пространство.
+        </p>
+      </section>
+
+      <section class="flow-card" aria-label="Быстрые настройки">
+        <label class="field">
+          <span>Имя</span>
+          <input value="Настя" />
+        </label>
+        <label class="field">
+          <span>Размер</span>
+          <select>
+            <option>32 px · стандарт</option>
+            <option>28 px · компактно</option>
+            <option>38 px · крупно</option>
+          </select>
+        </label>
+        <div class="flow-actions">
+          <button class="ghost-button" type="button">↺</button>
+          <button class="primary-button" type="button">Печать</button>
+        </div>
+      </section>
+
+      <section class="flow-stage">
+        <aside class="flow-panel" aria-label="Текст листа">
+          <label class="field">
+            <span>Фраза для тренировки</span>
+            <textarea spellcheck="false">Нельзя выбрасывать подарки!</textarea>
+          </label>
+          <p class="research-note">Подходит, если генератор должен ощущаться простым инструментом на один быстрый сценарий.</p>
+        </aside>
+        <div class="flow-preview" aria-label="Предпросмотр">
+          <article class="sheet-mini" aria-label="Макет листа">
+            <p class="sample-copy">Нельзя выбрасывать подарки!</p>
+            <div class="sheet-lines">
+              <div class="sheet-row"></div><div class="sheet-row"></div><div class="sheet-row"></div>
+              <div class="sheet-row"></div><div class="sheet-row"></div><div class="sheet-row"></div>
+              <div class="sheet-row"></div><div class="sheet-row"></div><div class="sheet-row"></div>
+              <div class="sheet-row"></div><div class="sheet-row"></div><div class="sheet-row"></div>
+              <div class="sheet-row"></div><div class="sheet-row"></div><div class="sheet-row"></div>
+              <div class="sheet-row"></div><div class="sheet-row"></div><div class="sheet-row"></div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

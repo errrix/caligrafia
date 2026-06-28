@@ -29,27 +29,29 @@ User
 
 ```text
 .
-├── docs/
-│   ├── ARCHITECTURE.md
-│   ├── FEATURE_ORCHESTRATION.md
-│   └── PROJECT_CHANGES.md
-├── public/
-│   ├── favicon.svg
-│   ├── icons.svg
-│   └── fonts/
-│       ├── primo.ttf
-│       └── propisi.ttf
-├── scripts/
-│   └── fix-dist-file-url.mjs
-├── src/
-│   ├── App.css
-│   ├── App.tsx
-│   ├── index.css
-│   └── main.tsx
-├── index.html
-├── package.json
-├── tsconfig*.json
-└── vite.config.ts
+|-- docs/
+|   |-- ARCHITECTURE.md
+|   |-- FEATURE_ORCHESTRATION.md
+|   `-- PROJECT_CHANGES.md
+|-- public/
+|   |-- favicon.svg
+|   |-- icons.svg
+|   `-- fonts/
+|       |-- playwrite-us-trad-OFL.txt
+|       |-- playwrite-us-trad.ttf
+|       |-- primo.ttf
+|       `-- propisi.ttf
+|-- scripts/
+|   `-- fix-dist-file-url.mjs
+|-- src/
+|   |-- App.css
+|   |-- App.tsx
+|   |-- index.css
+|   `-- main.tsx
+|-- index.html
+|-- package.json
+|-- tsconfig*.json
+`-- vite.config.ts
 ```
 
 ## Entry Points
@@ -64,9 +66,11 @@ The main application component. It currently owns:
 
 - phrase state;
 - student name state;
-- handwriting font size state;
-- handlers for size controls, reset, and print;
-- control panel markup;
+- automatic handwriting font sizing by script;
+- phrase segmentation by script for handwriting font selection;
+- sample text wrapping by sheet width and explicit line breaks;
+- handlers for reset and print;
+- command-style tool rail, control panel markup, and preview metrics;
 - sheet preview markup;
 - empty practice row generation through `practiceRows`.
 
@@ -79,15 +83,19 @@ size, but the first likely extraction points are `ControlPanel` and
 Contains most of the visual behavior:
 
 - application layout;
-- control panel styles;
+- command-style tool rail, control panel, preview metrics, and sheet preview
+  shell styles;
 - A4 sheet dimensions;
 - writing guide lines;
 - responsive preview scaling;
 - print mode through `@media print`.
 
-Sheet geometry is controlled by CSS variables inside `.sheet`:
+Sheet geometry and sample text sizing are controlled by CSS variables inside
+`.sheet`:
 
-- `--copy-size` - handwriting text size passed from React;
+- `--copy-size-default` - Cyrillic/default handwriting text size;
+- `--copy-size-latin` - Latin handwriting text size tuned to match the same
+  guide row height;
 - `--row-height` - practice row height;
 - `--baseline-y` - baseline position;
 - `--x-height` - upper guide line position.
@@ -97,17 +105,27 @@ Sheet geometry is controlled by CSS variables inside `.sheet`:
 Global application styles:
 
 - local font loading;
+- handwriting font stacks for Cyrillic/default text and Latin text;
 - color CSS variables;
 - base styles for `html`, `body`, `button`, `input`, and `textarea`.
+
+Worksheet handwriting fonts are part of the product behavior, not decorative UI
+styling. Fonts used on the A4 sheet should look like school copybook models. For
+Latin cursive worksheets, the primary font must support connected letters,
+visible rightward slant, and complete cursive letterforms with the expected
+entry/exit strokes and loops. Decorative script fonts, casual handwriting fonts,
+upright joined fonts, non-joined manuscript fonts, and generic system fallbacks
+should only be fallback options after a suitable local worksheet font.
 
 ## Data and State
 
 State lives only in `App.tsx` through `useState`:
 
 ```text
-sourcePhrase -> worksheet phrase text
+sourcePhrase -> worksheet phrase text, including explicit line breaks
+sampleRows   -> derived sheet rows after width-aware wrapping
+phraseRuns   -> derived script-aware phrase segments for each sample row
 studentName  -> student name in the control panel
-fontSize     -> handwriting text size
 ```
 
 There is no external store, URL state, localStorage, or backend. After a page
@@ -128,6 +146,7 @@ Key rules live in `@media print`:
 
 - `@page { size: A4; margin: 0; }`;
 - hide `.control-panel` and `.preview-toolbar`;
+- hide the tool rail and preview metrics;
 - reset screen preview scaling;
 - remove shadows;
 - preserve printed colors through `print-color-adjust`.
@@ -163,7 +182,7 @@ instead of through an HTTP server.
 
 - Render the student name on the sheet.
 - Add multiple phrases or multiple sheets.
-- Implement wrapping for long phrases.
+- Add controls for row count or page overflow behavior.
 - Extract `ControlPanel` and `PracticeSheet` components.
 - Add settings persistence.
 - Add visual verification for the printed sheet.

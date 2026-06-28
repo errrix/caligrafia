@@ -1,34 +1,11 @@
 # Caligrafia
 
 A browser-based A4 handwriting worksheet generator. The app lets users enter a
-phrase, adjust the handwriting size, preview the sheet, and print it or save it
+phrase, preview the sheet with guide-fitted handwriting, and print it or save it
 as PDF through the browser print dialog.
 
-## Quick Start
-
-```bash
-npm install
-npm run dev
-```
-
-Production build:
-
-```bash
-npm run build
-```
-
-Checks:
-
-```bash
-npm run lint
-```
-
-## Documentation Language
-
-All project documentation must be written in English.
-
-Team chat and planning may happen in Russian, but committed documentation in
-`README.md` and `docs/` stays English.
+Agent startup instructions, project commands, and delivery workflow live in
+[AGENTS.md](AGENTS.md).
 
 ## Documentation
 
