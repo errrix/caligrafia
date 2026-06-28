@@ -1,36 +1,37 @@
-# Архитектура
+# Architecture
 
-Проект представляет собой одностраничное React-приложение на Vite. Основная
-задача приложения - собрать параметры прописи в панели управления, отрисовать
-лист A4 в браузере и передать его в системный диалог печати.
+The project is a single-page React application built with Vite. Its main job is
+to collect worksheet parameters in a control panel, render an A4 sheet in the
+browser, and pass that sheet to the browser print dialog.
 
-## Общая схема
+## High-Level Flow
 
 ```text
-Пользователь
+User
   -> React UI
-  -> состояние App.tsx
-  -> разметка листа A4
-  -> CSS-стили экрана / печати
+  -> App.tsx state
+  -> A4 sheet markup
+  -> screen / print CSS
   -> window.print()
-  -> принтер или PDF браузера
+  -> printer or browser PDF
 ```
 
-## Технологии
+## Technology Stack
 
-- React - интерфейс и состояние формы.
-- TypeScript - типизация приложения.
-- Vite - dev-сервер и production-сборка.
-- CSS - layout, геометрия листа, печатные стили и подключение шрифтов.
-- lucide-react - иконки в кнопках и шапке панели.
-- oxlint - статическая проверка кода.
+- React - UI and form state.
+- TypeScript - application typing.
+- Vite - development server and production build.
+- CSS - layout, sheet geometry, print styles, and font loading.
+- lucide-react - icons used in buttons and the control panel header.
+- oxlint - static code checks.
 
-## Структура
+## Project Structure
 
 ```text
 .
 ├── docs/
 │   ├── ARCHITECTURE.md
+│   ├── FEATURE_ORCHESTRATION.md
 │   └── PROJECT_CHANGES.md
 ├── public/
 │   ├── favicon.svg
@@ -51,120 +52,119 @@
 └── vite.config.ts
 ```
 
-## Точки входа
+## Entry Points
 
 ### `src/main.tsx`
 
-Монтирует React-приложение в DOM-элемент `#root` из `index.html`.
+Mounts the React application into the `#root` DOM element from `index.html`.
 
 ### `src/App.tsx`
 
-Главный компонент приложения. Сейчас в нем находятся:
+The main application component. It currently owns:
 
-- состояние фразы;
-- состояние имени ученика;
-- состояние размера текста;
-- обработчики кнопок размера, сброса и печати;
-- разметка панели управления;
-- разметка предпросмотра листа;
-- генерация пустых строк по `practiceRows`.
+- phrase state;
+- student name state;
+- handwriting font size state;
+- handlers for size controls, reset, and print;
+- control panel markup;
+- sheet preview markup;
+- empty practice row generation through `practiceRows`.
 
-Компонент пока монолитный. Это нормально для текущего размера проекта, но при
-расширении стоит вынести минимум два компонента: панель настроек и лист
-предпросмотра.
+The component is still monolithic. That is acceptable at the current project
+size, but the first likely extraction points are `ControlPanel` and
+`PracticeSheet`.
 
 ### `src/App.css`
 
-Содержит большую часть визуальной логики:
+Contains most of the visual behavior:
 
-- layout приложения;
-- стили панели управления;
-- размеры листа A4;
-- направляющие строки;
-- адаптивное масштабирование предпросмотра;
-- режим печати через `@media print`.
+- application layout;
+- control panel styles;
+- A4 sheet dimensions;
+- writing guide lines;
+- responsive preview scaling;
+- print mode through `@media print`.
 
-Геометрия листа управляется CSS-переменными внутри `.sheet`:
+Sheet geometry is controlled by CSS variables inside `.sheet`:
 
-- `--copy-size` - размер рукописного текста, приходит из React;
-- `--row-height` - высота строки;
-- `--baseline-y` - положение базовой линии;
-- `--x-height` - положение верхней направляющей.
+- `--copy-size` - handwriting text size passed from React;
+- `--row-height` - practice row height;
+- `--baseline-y` - baseline position;
+- `--x-height` - upper guide line position.
 
 ### `src/index.css`
 
-Глобальные стили приложения:
+Global application styles:
 
-- подключение локальных шрифтов;
-- цветовые CSS-переменные;
-- базовые настройки `html`, `body`, `button`, `input`, `textarea`.
+- local font loading;
+- color CSS variables;
+- base styles for `html`, `body`, `button`, `input`, and `textarea`.
 
-## Данные и состояние
+## Data and State
 
-Состояние хранится только в `App.tsx` через `useState`:
+State lives only in `App.tsx` through `useState`:
 
 ```text
-sourcePhrase -> текст фразы для листа
-studentName  -> имя ученика в панели настроек
-fontSize     -> размер рукописного текста
+sourcePhrase -> worksheet phrase text
+studentName  -> student name in the control panel
+fontSize     -> handwriting text size
 ```
 
-Пока нет внешнего хранилища, URL-параметров, localStorage или серверной части.
-После перезагрузки страницы настройки возвращаются к значениям по умолчанию.
+There is no external store, URL state, localStorage, or backend. After a page
+reload, settings return to their default values.
 
-## Печать
+## Printing
 
-Печать запускается кнопками, которые вызывают:
+Printing is triggered by buttons that call:
 
 ```ts
 window.print()
 ```
 
-В режиме печати CSS скрывает панель управления и тулбар предпросмотра. На печать
-уходит только `.sheet` с размерами `210mm x 297mm`.
+In print mode, CSS hides the control panel and the preview toolbar. Only `.sheet`
+with `210mm x 297mm` dimensions is sent to print.
 
-Ключевые правила находятся в `@media print`:
+Key rules live in `@media print`:
 
 - `@page { size: A4; margin: 0; }`;
-- скрытие `.control-panel` и `.preview-toolbar`;
-- сброс экранного масштабирования листа;
-- отключение теней;
-- сохранение печатных цветов через `print-color-adjust`.
+- hide `.control-panel` and `.preview-toolbar`;
+- reset screen preview scaling;
+- remove shadows;
+- preserve printed colors through `print-color-adjust`.
 
-## Сборка
+## Build
 
-Vite настроен с `base: './'`, чтобы итоговые ассеты подключались относительными
-путями. Это важно для открытия production-сборки напрямую из файловой системы.
+Vite is configured with `base: './'` so built assets use relative paths. This is
+important for opening the production build directly from the file system.
 
-Команда сборки:
+Build command:
 
 ```bash
 npm run build
 ```
 
-Она выполняет три шага:
+It performs three steps:
 
-1. `tsc -b` - проверка TypeScript.
-2. `vite build` - сборка статических файлов в `dist`.
-3. `node scripts/fix-dist-file-url.mjs` - post-build-правка HTML.
+1. `tsc -b` - TypeScript check.
+2. `vite build` - static asset build into `dist`.
+3. `node scripts/fix-dist-file-url.mjs` - post-build HTML patch.
 
-## Post-build-скрипт
+## Post-Build Script
 
-`scripts/fix-dist-file-url.mjs` читает `dist/index.html` и:
+`scripts/fix-dist-file-url.mjs` reads `dist/index.html` and:
 
-- заменяет module script на обычный deferred script;
-- удаляет `crossorigin`.
+- replaces a module script with a deferred regular script;
+- removes `crossorigin`.
 
-Это нужно для сценария, где `dist/index.html` открывается напрямую с диска, а не
-через HTTP-сервер.
+This supports the scenario where `dist/index.html` is opened directly from disk
+instead of through an HTTP server.
 
-## Зоны будущего роста
+## Future Growth Areas
 
-- Вывести имя ученика на лист.
-- Добавить несколько фраз или несколько листов.
-- Реализовать перенос длинных строк.
-- Вынести `ControlPanel` и `PracticeSheet` в отдельные компоненты.
-- Добавить сохранение настроек.
-- Добавить визуальную проверку печатного листа.
-- Добавить экспорт PDF без участия системного диалога, если понадобится
-  одинаковый результат между браузерами.
+- Render the student name on the sheet.
+- Add multiple phrases or multiple sheets.
+- Implement wrapping for long phrases.
+- Extract `ControlPanel` and `PracticeSheet` components.
+- Add settings persistence.
+- Add visual verification for the printed sheet.
+- Add direct PDF export if consistent cross-browser output becomes required.

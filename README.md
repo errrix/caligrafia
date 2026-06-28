@@ -1,29 +1,37 @@
-# Каллиграфия
+# Caligrafia
 
-Генератор печатных прописей формата A4. Приложение работает в браузере,
-позволяет ввести фразу, настроить размер текста и распечатать лист или сохранить
-его в PDF через системный диалог браузера.
+A browser-based A4 handwriting worksheet generator. The app lets users enter a
+phrase, adjust the handwriting size, preview the sheet, and print it or save it
+as PDF through the browser print dialog.
 
-## Быстрый старт
+## Quick Start
 
 ```bash
 npm install
 npm run dev
 ```
 
-Production-сборка:
+Production build:
 
 ```bash
 npm run build
 ```
 
-Проверки:
+Checks:
 
 ```bash
 npm run lint
 ```
 
-## Документация
+## Documentation Language
 
-- [Изменения проекта](docs/PROJECT_CHANGES.md)
-- [Архитектура](docs/ARCHITECTURE.md)
+All project documentation must be written in English.
+
+Team chat and planning may happen in Russian, but committed documentation in
+`README.md` and `docs/` stays English.
+
+## Documentation
+
+- [Project Changes](docs/PROJECT_CHANGES.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Feature Orchestration](docs/FEATURE_ORCHESTRATION.md)

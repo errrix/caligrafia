@@ -1,30 +1,30 @@
-# Изменения проекта
+# Project Changes
 
-Этот файл фиксирует изменения проекта начиная с текущей базовой точки. Все, что
-описано в разделе `Базовая точка`, считается исходным состоянием для дальнейшей
-истории изменений.
+This file records project changes starting from the current baseline. Everything
+listed in the `Baseline` section is treated as the initial state for future
+change history.
 
-## Базовая точка
+## Baseline
 
-Текущий проект - React/Vite-приложение для генерации одного листа прописей A4.
-Приложение не использует бэкенд, хранит состояние только в браузере и печатает
-лист через стандартный механизм `window.print()`.
+The current project is a React/Vite application for generating a single A4
+handwriting worksheet. It has no backend, keeps state only in the browser, and
+prints through the standard `window.print()` flow.
 
-### Реализовано
+### Implemented
 
-- Панель настроек с вводом имени ученика.
-- Поле для ввода фразы.
-- Регулировка размера текста в диапазоне от `24px` до `42px`.
-- Предпросмотр листа A4.
-- Одна строка-образец с введенной фразой.
-- `20` пустых строк с направляющими для самостоятельного письма.
-- Кнопки печати и сохранения в PDF через системный диалог браузера.
-- Локальные шрифты прописей из `public/fonts`.
-- Production-сборка через Vite.
-- Post-build-скрипт для правки `dist/index.html`, чтобы сборку можно было
-  открыть напрямую через `file://`.
+- Settings panel with a student name input.
+- Phrase input for the worksheet.
+- Handwriting size adjustment from `24px` to `42px`.
+- A4 sheet preview in the browser.
+- One sample row with the entered phrase.
+- `20` empty practice rows with writing guide lines.
+- Print and PDF save through the browser system dialog.
+- Local handwriting fonts from `public/fonts`.
+- Production build through Vite.
+- Post-build script that patches `dist/index.html` so the build can be opened
+  directly through `file://`.
 
-### Команды проекта
+### Project Commands
 
 ```bash
 npm run dev
@@ -33,22 +33,23 @@ npm run preview
 npm run lint
 ```
 
-### Текущие ограничения
+### Current Limitations
 
-- Имя ученика хранится в состоянии, но пока не выводится на лист.
-- Генерируется один лист с одной фразой.
-- Длинная фраза не переносится автоматически, текст рассчитан на одну строку.
-- PDF не генерируется отдельной библиотекой, а создается средствами браузера.
-- Нет сохранения пользовательских настроек между сессиями.
-- Нет тестов пользовательского интерфейса или визуальной регрессии печатного
-  листа.
+- The student name is stored in state but is not rendered on the worksheet yet.
+- The app generates one sheet for one phrase.
+- Long phrases do not wrap automatically; the text is designed for one line.
+- PDF output is produced by the browser, not by a dedicated PDF engine.
+- User settings are not persisted between sessions.
+- There are no UI tests or visual regression checks for the printed sheet.
 
 ## 2026-06-28
 
-### Документация
+### Documentation
 
-- README сокращен до входной точки проекта: краткое описание, быстрый старт,
-  сборка, проверка и ссылки на подробную документацию.
-- Добавлена папка `docs`.
-- Добавлен этот журнал изменений проекта.
-- Добавлен документ с архитектурой проекта.
+- Shortened `README.md` into a project entry point with quick start commands and
+  links to detailed documentation.
+- Added the `docs` directory.
+- Added this project change log.
+- Added the architecture document.
+- Standardized project documentation language as English.
+- Added the feature orchestration process for future feature work.
